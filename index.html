@@ -1,0 +1,574 @@
+<!doctype html>
+<html lang="zh-Hant-HK">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#E2A92B">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/svg+xml" href="icons/logo.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="羅庚勁">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}html{-webkit-text-size-adjust:100%}</style>
+<title>羅庚勁</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@600;700;900&display=swap">
+<style>
+:root{
+  --bg:#EDF0EC; --surface:#F8FAF7; --ink:#18211D; --muted:#5E6B65; --line:#D3DAD5;
+  --cinnabar:#B23A26; --jade:#2E6B55; --jade-soft:#DCEBE3; --ochre:#94650F; --ochre-soft:#F3E6C8;
+  --neutral-soft:#E3E8E4; --dial:#F4F6F2; --dial-ring:#E6EBE6;
+  --serif:"Noto Serif TC","Songti TC","PMingLiU",serif;
+  --sans:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#0F1412; --surface:#171E1B; --ink:#E4EBE7; --muted:#93A29B; --line:#2A3531;
+    --cinnabar:#E2654D; --jade:#6DBB98; --jade-soft:#1C3229; --ochre:#D9A441; --ochre-soft:#3A2F17;
+    --neutral-soft:#202925; --dial:#141A18; --dial-ring:#1D2522;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#0F1412; --surface:#171E1B; --ink:#E4EBE7; --muted:#93A29B; --line:#2A3531;
+  --cinnabar:#E2654D; --jade:#6DBB98; --jade-soft:#1C3229; --ochre:#D9A441; --ochre-soft:#3A2F17;
+  --neutral-soft:#202925; --dial:#141A18; --dial-ring:#1D2522;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.55;-webkit-tap-highlight-color:transparent}
+.wrap{max-width:480px;margin:0 auto;padding-inline:16px;padding-block:14px 40px;display:flex;flex-direction:column;gap:14px}
+header{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{font-family:var(--serif);font-weight:900;font-size:22px;letter-spacing:.08em;display:flex;align-items:center;gap:10px}
+.brand img{width:34px;height:34px;border-radius:8px;display:block}
+.brand b{color:var(--cinnabar)}
+.sample{font-size:12px;color:var(--ochre);background:var(--ochre-soft);border-radius:99px;padding:2px 10px}
+section{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:12px}
+.step{display:flex;align-items:baseline;gap:8px;font-size:13px;color:var(--muted);letter-spacing:.06em}
+.step i{font-style:normal;font-family:var(--serif);font-weight:700;color:var(--cinnabar);font-size:15px}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid var(--cinnabar);outline-offset:2px}
+
+/* compass */
+.dialbox{position:relative;width:min(100%,290px);aspect-ratio:1;margin:0 auto;touch-action:none;user-select:none}
+.dialbox svg{width:100%;height:100%;display:block}
+#rose{transition:transform .12s linear}
+.readout{display:flex;align-items:flex-end;justify-content:space-between;gap:12px}
+.deg{font-family:var(--serif);font-weight:700;font-size:40px;line-height:1;font-variant-numeric:tabular-nums}
+.deg small{font-size:18px;color:var(--muted)}
+.shan{font-family:var(--serif);font-weight:700;font-size:24px;text-align:right;line-height:1.2}
+.shan small{display:block;font-family:var(--sans);font-weight:500;font-size:12px;color:var(--muted)}
+.warn{font-size:13px;color:var(--ochre)}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.btn{border:1px solid var(--line);background:var(--bg);border-radius:10px;padding:9px 14px;min-height:42px}
+.btn.primary{background:var(--cinnabar);border-color:var(--cinnabar);color:#fff;font-weight:500}
+.btn.sq{width:42px;padding:0;font-size:18px}
+.degin{width:88px;min-height:42px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);font:inherit;text-align:center;font-variant-numeric:tabular-nums}
+.hint{font-size:13px;color:var(--muted)}
+.grow{flex:1}
+
+/* house */
+.field{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.field label{font-weight:500}
+.sel{display:flex;gap:6px}
+select{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;min-height:42px;padding:0 8px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.seg button{border:0;background:var(--bg);min-height:40px;padding:0 18px}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--surface)}
+.yun{display:flex;align-items:center;gap:10px;border-top:1px solid var(--line);padding-top:12px;flex-wrap:wrap}
+.yun .big{font-family:var(--serif);font-weight:900;font-size:26px}
+.chip{font-size:12px;border-radius:99px;padding:3px 10px;background:var(--neutral-soft);color:var(--muted)}
+.chip.good{background:var(--jade-soft);color:var(--jade)}
+.chip.calm{background:var(--ochre-soft);color:var(--ochre)}
+.link{border:0;background:none;color:var(--cinnabar);font-size:13px;padding:6px 4px;text-decoration:underline;text-underline-offset:3px}
+.yunpick{display:flex;flex-wrap:wrap;gap:6px}
+.yunpick button{min-width:40px;min-height:38px;border:1px solid var(--line);background:var(--bg);border-radius:9px;font-family:var(--serif);font-weight:700}
+.yunpick button[aria-pressed="true"]{background:var(--cinnabar);border-color:var(--cinnabar);color:#fff}
+
+/* result */
+.rhead{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.yearstep{display:flex;align-items:center;gap:4px}
+.yearstep span{font-family:var(--serif);font-weight:700;font-size:17px;font-variant-numeric:tabular-nums;min-width:86px;text-align:center}
+.yearstep button{width:36px;height:36px;border:1px solid var(--line);border-radius:9px;background:var(--bg)}
+.summary{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:15px}
+.summary dt{color:var(--muted);font-size:13px;padding-top:1px}
+.summary dd{margin:0;font-weight:700}
+.summary .g{color:var(--jade)} .summary .c{color:var(--ochre)}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);gap:6px;aspect-ratio:1;width:100%}
+.cell{border:1px solid transparent;border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:4px;background:var(--neutral-soft);min-width:0}
+.cell.good{background:var(--jade-soft)} .cell.calm{background:var(--ochre-soft)}
+.cell .cd{font-size:12px;color:var(--muted)}
+.cell .ct{font-family:var(--serif);font-weight:700;font-size:16px;line-height:1.25;text-align:center}
+.cell.good .ct{color:var(--jade)} .cell.calm .ct{color:var(--ochre)}
+.cell .cs{font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums}
+.cell.facing{box-shadow:inset 0 3px 0 var(--cinnabar)}
+.cell[aria-pressed="true"]{border-color:var(--ink)}
+.cell.center{background:transparent;border:1px dashed var(--line)}
+.gridcap{display:flex;justify-content:space-between;font-size:12px;color:var(--muted)}
+.card{border-top:1px solid var(--line);padding-top:12px;display:flex;flex-direction:column;gap:8px}
+.card h3{margin:0;font-family:var(--serif);font-size:20px;font-weight:900;text-wrap:balance}
+.card h3 span{color:var(--muted);font-weight:600}
+.card dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:6px 12px}
+.card dt{font-size:13px;font-weight:700;border-radius:6px;padding:1px 7px;align-self:start;background:var(--neutral-soft)}
+.card dt.y{background:var(--jade-soft);color:var(--jade)} .card dt.n{background:var(--ochre-soft);color:var(--ochre)}
+.card dd{margin:0}
+.toggle{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--muted);border:0;background:none;padding:4px 0}
+.toggle .sw{width:30px;height:18px;border-radius:9px;background:var(--line);position:relative;transition:background .15s}
+.toggle .sw::after{content:"";position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;background:var(--surface);transition:transform .15s}
+.toggle[aria-pressed="true"] .sw{background:var(--cinnabar)}
+.toggle[aria-pressed="true"] .sw::after{transform:translateX(12px)}
+.yearstep{align-self:center}
+.whos{display:flex;flex-wrap:wrap;gap:6px}
+.whos button{border:1px solid var(--line);background:var(--bg);border-radius:99px;padding:6px 14px;min-height:36px}
+.whos button[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--surface)}
+.fam{display:flex;flex-direction:column;gap:10px;border-top:1px solid var(--line);padding-top:12px}
+.people{display:flex;flex-direction:column;gap:6px}
+.people:empty{display:none}
+.person{display:flex;align-items:center;gap:10px;padding:8px 6px 8px 12px;border-radius:10px;background:var(--bg);border:1px solid var(--line)}
+.person .pn{font-weight:700;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.person .pg{font-family:var(--serif);font-weight:700;white-space:nowrap}
+.person .pm{font-size:12px;white-space:nowrap}
+.person .pm.ok{color:var(--jade)} .person .pm.no{color:var(--ochre)}
+.person .del{border:0;background:none;color:var(--muted);width:34px;height:34px;font-size:18px;flex:none}
+.addform{display:flex;flex-direction:column;gap:10px;padding:12px;border:1px dashed var(--line);border-radius:12px}
+.txt{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;min-height:42px;padding:0 10px;width:150px;max-width:100%}
+.sel select{min-width:0}
+@media (prefers-reduced-motion: reduce){#rose,.toggle .sw,.toggle .sw::after{transition:none}}
+</style>
+</head>
+<body>
+
+
+<div class="wrap">
+  <header>
+    <div class="brand"><img src="icons/logo.svg" alt="" width="34" height="34"><span>羅庚<b>勁</b></span></div>
+    <span class="sample" id="sample">示例</span>
+  </header>
+
+  <section aria-labelledby="s1">
+    <div class="step" id="s1"><i>一</i>定向</div>
+    <div class="dialbox" id="dialbox">
+      <svg viewBox="-150 -150 300 300" aria-hidden="true">
+        <circle r="146" fill="var(--dial-ring)" stroke="var(--line)"/>
+        <g id="rose"></g>
+        <circle r="62" fill="var(--dial)" stroke="var(--line)"/>
+        <line x1="0" y1="-146" x2="0" y2="146" stroke="var(--cinnabar)" stroke-width="1.4"/>
+        <line x1="-146" y1="0" x2="146" y2="0" stroke="var(--cinnabar)" stroke-width="1.4"/>
+        <path d="M0 -150 L-7 -138 L7 -138 Z" fill="var(--cinnabar)"/>
+        <text id="dialCenter" y="10" text-anchor="middle" font-family="var(--serif)" font-weight="900" font-size="30" fill="var(--ink)">午</text>
+        <text y="-40" text-anchor="middle" font-size="11" fill="var(--cinnabar)" font-family="var(--sans)">向</text>
+      </svg>
+    </div>
+    <div class="readout">
+      <div class="deg" id="deg">180.0<small>°</small></div>
+      <div class="shan" id="shan">子山午向<small id="jian">下卦</small></div>
+    </div>
+    <div class="warn" id="warn" hidden></div>
+    <div class="row">
+      <button class="btn primary grow" id="liveBtn">用指南針</button>
+      <button class="btn sq" id="minus" aria-label="減一度">−</button>
+      <input class="degin" id="degIn" type="number" inputmode="decimal" min="0" max="359.9" step="0.5" aria-label="向度數">
+      <button class="btn sq" id="plus" aria-label="加一度">+</button>
+    </div>
+    <div class="hint" id="hint">企喺屋內，面向大門外，手機平放、頂部指向屋外。可拖動羅盤或直接輸入度數。</div>
+  </section>
+
+  <section aria-labelledby="s2">
+    <div class="step" id="s2"><i>二</i>屋況</div>
+    <div class="field">
+      <label for="moveY">入伙</label>
+      <div class="sel"><select id="moveY"></select><select id="moveM" aria-label="入伙月份"></select></div>
+    </div>
+    <div class="field">
+      <label>全屋裝修</label>
+      <div class="seg" role="group" aria-label="全屋裝修">
+        <button id="renoNo" aria-pressed="true">冇</button>
+        <button id="renoYes" aria-pressed="false">有</button>
+      </div>
+    </div>
+    <div class="field" id="renoRow" hidden>
+      <label for="renoY">裝修</label>
+      <div class="sel"><select id="renoY"></select><select id="renoM" aria-label="裝修月份"></select></div>
+    </div>
+    <div class="yun">
+      <span class="big" id="yunName">八運盤</span>
+      <span class="chip" id="yunSrc">自動</span>
+      <span class="grow"></span>
+      <button class="link" id="yunEdit">改</button>
+    </div>
+    <div class="yunpick" id="yunPick" hidden></div>
+    <div class="fam">
+      <div class="field"><label>家人命卦</label><span class="hint" id="famCount">0/5</span></div>
+      <div class="people" id="people"></div>
+      <button class="btn" id="addBtn">＋ 加入家人</button>
+      <div class="addform" id="addForm" hidden>
+        <div class="field"><label for="pName">稱呼</label><input class="txt" id="pName" maxlength="8" placeholder="例如：爸爸"></div>
+        <div class="field"><label for="pY">出生</label><div class="sel"><select id="pY"></select><select id="pM" aria-label="出生月份"></select><select id="pD" aria-label="出生日"></select></div></div>
+        <div class="field"><label>性別</label><div class="seg" role="group" aria-label="性別"><button id="pMale" aria-pressed="true">男</button><button id="pFemale" aria-pressed="false">女</button></div></div>
+        <div class="row"><button class="btn grow" id="pCancel">取消</button><button class="btn primary grow" id="pSave">加入</button></div>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="s3">
+    <div class="rhead">
+      <div class="step" id="s3"><i>三</i>宜忌</div>
+      <div class="seg" role="group" aria-label="盤式">
+        <button id="mFx" aria-pressed="true">飛星</button>
+        <button id="mBz" aria-pressed="false">八宅</button>
+      </div>
+    </div>
+    <div class="yearstep" id="yearstep">
+      <button id="yPrev" aria-label="上一年">‹</button>
+      <span id="yLabel">2026 流年</span>
+      <button id="yNext" aria-label="下一年">›</button>
+    </div>
+    <div class="whos" id="whos" hidden></div>
+    <dl class="summary" id="summary"></dl>
+    <div class="grid" id="grid"></div>
+    <div class="gridcap"><span>上方為屋向 · 紅線示向首</span><button class="toggle" id="starT" aria-pressed="false"><span class="sw"></span>星數</button></div>
+    <div class="card" id="card"></div>
+  </section>
+</div>
+
+<script>
+(()=>{
+// ---------- 基本資料 ----------
+const MT=['子','癸','丑','艮','寅','甲','卯','乙','辰','巽','巳','丙','午','丁','未','坤','申','庚','酉','辛','戌','乾','亥','壬'];
+const DIRS=['北','東北','東','東南','南','西南','西','西北'];
+const PAL=[1,8,3,4,9,2,7,6];                 // 方位 → 洛書宮數
+const DIR_OF_PAL={1:0,8:1,3:2,4:3,9:4,2:5,7:6,6:7};
+const ORDER=[5,6,7,8,9,1,2,3,4];               // 中乾兌艮離坎坤震巽
+const CN=['','一','二','三','四','五','六','七','八','九'];
+const REPL={子:1,癸:1,甲:1,申:1, 壬:2,卯:2,乙:2,未:2,坤:2, 戌:6,乾:6,亥:6,辰:6,巽:6,巳:6, 艮:7,丙:7,辛:7,酉:7,丑:7, 寅:9,午:9,庚:9,丁:9};
+
+const norm=d=>((d%360)+360)%360;
+const n9=n=>((n-1)%9+9)%9+1;
+const mtIdx=d=>Math.floor(norm(d+7.5)/15)%24;
+const dirOfMt=i=>Math.floor(((i+1)%24)/3);
+const yuanOfMt=i=>(i+1)%3;                     // 0地 1天 2人
+const mtOf=(dir,y)=>(dir*3+y-1+24)%24;
+const isYang=i=>{const c=dirOfMt(i)%2===0, y=yuanOfMt(i); return c? y===0 : y!==0;};
+
+function fly(center,fwd){
+  const r={};
+  ORDER.forEach((p,k)=>{ r[p]=n9(fwd? center+k : center-k); });
+  return r;
+}
+function chart(P,facing,useRepl){
+  const fi=mtIdx(facing), si=mtIdx(facing+180);
+  const base=fly(P,true);
+  const sub=mi=>{
+    const n=base[PAL[dirOfMt(mi)]];
+    const pol= n===5 ? mi : mtOf(DIR_OF_PAL[n], yuanOfMt(mi));
+    const c = (useRepl && n!==5) ? REPL[MT[pol]] : n;
+    return fly(c, isYang(pol));
+  };
+  return {base, mtn:sub(si), wtr:sub(fi), fi, si};
+}
+function periodOf(y,m){ const e=m<2?y-1:y; return ((Math.floor((e-1864)/20))%9+9)%9+1; }
+const annualStar=Y=>n9(1-(Y-2026));
+function currentYear(){ const d=new Date(), m=d.getMonth()+1; return (m<2||(m===2&&d.getDate()<4))? d.getFullYear()-1 : d.getFullYear(); }
+const stateOf=(s,P)=>{const d=(s-P+9)%9; return d===0?'旺':(d<=2?'生':(d===8?'退':'衰'));};
+
+const ENH={1:'流水擺設、水種植物',2:'陶瓷擺設、暖色燈',3:'綠色植物',4:'綠色植物、書本',6:'金屬擺設',7:'金屬擺設',8:'陶瓷擺設、暖色燈',9:'常開燈、綠色植物'};
+const ANN_GOOD={1:'今年人緣位',4:'今年文昌位',6:'今年貴人位',8:'今年財位',9:'今年喜慶位'};
+const ANN_DO={1:'見客、社交',4:'書枱、溫習',6:'工作位',8:'收銀、放錢箱',9:'聚會、喜事'};
+
+function describe(pal,c,a,P){
+  if(pal===5) return {tag:'中宮',tone:'neutral',score:0,lines:[['y','宜','保持整潔、開揚'],['n','忌','堆放雜物']]};
+  const m=c.mtn[pal], w=c.wtr[pal], ws=stateOf(w,P), ms=stateOf(m,P);
+  let score=({旺:3,生:2,退:0,衰:-1})[ws]+(w===5?-1:0)+({旺:2,生:1,退:0,衰:0})[ms];
+  score+=({5:-4,2:-3,3:-1,7:-1})[a]??1;
+  let tag,tone,y,n,item;
+  if(a===5||a===2){
+    tag='今年宜靜'; tone='calm';
+    y= a===5?'少用、保持安靜':'保持整潔、通風';
+    n='動土、鑽牆、放紅色物品'; item='銅製擺設';
+  }else if(ws==='旺'&&(ms==='旺'||ms==='生')){
+    tag='旺丁旺財'; tone='good'; y='客廳、大門、多走動'; item=ENH[w];
+  }else if(ws==='旺'){
+    tag='旺財位'; tone='good'; y='大門、客廳、多走動、常開燈'; item=ENH[w];
+  }else if(ws==='生'){
+    tag='財氣位'; tone='good'; y='客廳、工作位、多走動'; item=ENH[w];
+  }else if(ms==='旺'||ms==='生'){
+    tag= ms==='旺'?'人丁位':'健康位'; tone='good'; y='睡房、書枱、安坐休息'; item='高櫃、厚重傢俬';
+  }else if(w===5){
+    tag='宜靜'; tone='calm'; y='儲物、少走動'; n='動土、放紅色物品'; item='銅製擺設';
+  }else{
+    tag='平穩'; tone='neutral'; y='儲物、走廊、保持整潔';
+  }
+  if(a===3){ if(tone==='neutral') tag='今年少爭拗'; item=item?item+'；紅色物品':'紅色物品'; n=n||'擺放大型綠色植物'; }
+  if(a===7){ if(tone==='neutral') tag='今年宜守'; item=item?item+'；水種植物':'水種植物'; n=n||'擺放刀剪利器'; }
+  if(ANN_GOOD[a] && tone==='neutral'){ tag=ANN_GOOD[a]; y=ANN_DO[a]+'、'+y.split('、')[0]; }
+  if(tone==='neutral' && score>=2) tone='good';
+  if(tone==='neutral' && score<=-2) tone='calm';
+  const lines=[['y','宜',y]]; if(n) lines.push(['n','忌',n]); if(item) lines.push(['i','擺設',item]);
+  return {tag,tone,score,lines,m,w,a};
+}
+
+// ---------- 八宅 ----------
+const GUA={1:'坎',2:'坤',3:'震',4:'巽',6:'乾',7:'兌',8:'艮',9:'離'};
+const EAST=[1,3,4,9];
+const YOU=[ // 遊星：每組兩卦互為該星
+  ['生氣',[[1,4],[9,3],[6,7],[2,8]]],
+  ['天醫',[[1,3],[9,4],[6,8],[2,7]]],
+  ['延年',[[1,9],[3,4],[6,2],[8,7]]],
+  ['絕命',[[1,2],[9,6],[3,7],[4,8]]],
+  ['五鬼',[[1,8],[9,7],[3,6],[4,2]]],
+  ['六煞',[[1,6],[8,3],[4,7],[9,2]]],
+  ['禍害',[[1,7],[8,9],[3,2],[4,6]]],
+];
+function youStar(g,p){
+  if(g===p) return '伏位';
+  for(const [nm,pairs] of YOU) for(const [x,y] of pairs) if((x===g&&y===p)||(x===p&&y===g)) return nm;
+}
+const GOOD_YOU=['生氣','天醫','延年','伏位'];
+const YOU_TXT={
+  生氣:{main:'財運、事業',house:'大門、客廳、書枱',me:'床頭、書枱向此'},
+  天醫:{main:'健康、貴人',house:'睡房、飯廳',me:'床頭向此、養病'},
+  延年:{main:'感情、人緣',house:'睡房、客廳',me:'床頭向此、睡房'},
+  伏位:{main:'平穩、守成',house:'睡房、靜坐',me:'睡房、靜坐'},
+  絕命:{main:'宜少用',house:'廁所、儲物',me:'放雜物',avoid:'大門、睡床'},
+  五鬼:{main:'易生是非',house:'廁所、儲物',me:'放雜物',avoid:'大門、睡床'},
+  六煞:{main:'易生爭拗',house:'廁所、廚房',me:'放雜物',avoid:'睡床、書枱'},
+  禍害:{main:'易有小病',house:'廁所、儲物',me:'放雜物',avoid:'睡床'},
+};
+function birthGua(y,m,d,male){
+  const Y=(m<2||(m===2&&d<4))? y-1 : y;
+  let g=annualStar(Y);
+  if(!male) g=n9(15-g);
+  if(g===5) g= male?2:8;
+  return g;
+}
+const groupOf=g=>EAST.includes(g)?'東四':'西四';
+function describeBz(g,pal,isMe){
+  if(pal===5) return {tag:'中宮',tone:'neutral',lines:[['y','宜','保持整潔、開揚']]};
+  const s=youStar(g,pal), t=YOU_TXT[s], good=GOOD_YOU.includes(s);
+  const lines=[['i','主',t.main],['y','宜',isMe?t.me:t.house]];
+  if(t.avoid) lines.push(['n','忌',t.avoid]);
+  return {tag:s,tone:good?'good':'calm',lines,good};
+}
+
+// ---------- 狀態 ----------
+const NOW=new Date(), THIS_Y=NOW.getFullYear();
+const DEF={facing:180,moveY:2016,moveM:8,reno:false,renoY:2024,renoM:6,override:0,year:currentYear(),stars:false,sel:null,sample:true,mode:'fx',who:-1,people:[]};
+let S=Object.assign({},DEF);
+try{ const s=JSON.parse(localStorage.getItem('feixing-v1')||'null'); if(s) Object.assign(S,s,{year:currentYear()}); }catch(e){}
+const save=()=>{ try{ localStorage.setItem('feixing-v1',JSON.stringify(S)); }catch(e){} };
+const touch=()=>{ S.sample=false; };
+
+const $=id=>document.getElementById(id);
+
+// ---------- 羅盤 ----------
+(function buildRose(){
+  const g=$('rose'); let h='';
+  for(let d=0; d<360; d+=5){
+    const major=d%15===7.5, len = d%45===0?10:(d%15===0?6:3);
+    const r1=146, r2=146-len, a=d*Math.PI/180;
+    h+=`<line x1="${(Math.sin(a)*r1).toFixed(1)}" y1="${(-Math.cos(a)*r1).toFixed(1)}" x2="${(Math.sin(a)*r2).toFixed(1)}" y2="${(-Math.cos(a)*r2).toFixed(1)}" stroke="var(--muted)" stroke-width="${d%45===0?1.4:.7}"/>`;
+  }
+  for(let i=0;i<24;i++){
+    const b=i*15+7.5, a=b*Math.PI/180;
+    h+=`<line x1="${(Math.sin(a)*132).toFixed(1)}" y1="${(-Math.cos(a)*132).toFixed(1)}" x2="${(Math.sin(a)*96).toFixed(1)}" y2="${(-Math.cos(a)*96).toFixed(1)}" stroke="var(--line)" stroke-width="${(i%3===1)?1.6:.8}"/>`;
+    const card=[0,6,12,18].includes(i);
+    h+=`<text transform="rotate(${i*15}) translate(0,-107)" text-anchor="middle" font-family="var(--serif)" font-weight="700" font-size="16" fill="${card?'var(--cinnabar)':'var(--ink)'}">${MT[i]}</text>`;
+  }
+  for(let k=0;k<8;k++){
+    h+=`<text transform="rotate(${k*45}) translate(0,-76)" text-anchor="middle" font-family="var(--sans)" font-size="10" fill="var(--muted)">${DIRS[k]}</text>`;
+  }
+  g.innerHTML=h;
+})();
+
+let live=false, liveHd=null, sx=0, sy=0;
+function showDial(deg){
+  $('rose').setAttribute('transform',`rotate(${-deg})`);
+  const fi=mtIdx(deg), si=mtIdx(deg+180);
+  $('deg').innerHTML=deg.toFixed(1)+'<small>°</small>';
+  $('shan').firstChild.nodeValue=MT[si]+'山'+MT[fi]+'向';
+  $('dialCenter').textContent=MT[fi];
+  const off=((deg-fi*15+540)%360)-180;         // 與山中線差
+  const edge=7.5-Math.abs(off);
+  let j='下卦';
+  if(Math.abs(off)>4.5){ const nb=MT[(fi+(off>0?1:23))%24]; j='兼'+nb+' · 替卦'; }
+  $('jian').textContent=j;
+  const w=$('warn');
+  if(edge<1.5){ const cross=dirOfMt(fi)!==dirOfMt((fi+(off>0?1:23))%24); w.textContent=(cross?'接近出卦線':'接近兩山交界')+'，建議重新量度'; w.hidden=false; } else w.hidden=true;
+}
+function setFacing(d){ S.facing=Math.round(norm(d)*10)/10; touch(); $('degIn').value=S.facing; showDial(S.facing); render(); }
+
+function onOri(e){
+  let hd=null;
+  if(typeof e.webkitCompassHeading==='number') hd=e.webkitCompassHeading;
+  else if(e.absolute && typeof e.alpha==='number') hd=360-e.alpha;
+  if(hd==null) return;
+  hd=norm(hd+((screen.orientation&&screen.orientation.angle)||0));
+  const a=hd*Math.PI/180; sx=sx*.8+Math.cos(a)*.2; sy=sy*.8+Math.sin(a)*.2;
+  liveHd=norm(Math.atan2(sy,sx)*180/Math.PI);
+  if(live) showDial(liveHd);
+}
+function stopLive(){ live=false; window.removeEventListener('deviceorientationabsolute',onOri,true); window.removeEventListener('deviceorientation',onOri,true); $('liveBtn').textContent='用指南針'; }
+function failLive(){ stopLive(); $('hint').textContent='呢部機或瀏覽器讀唔到指南針，請手動輸入度數或拖動羅盤。'; }
+$('liveBtn').onclick=()=>{
+  if(live){ if(liveHd!=null) setFacing(liveHd); stopLive(); return; }
+  const go=()=>{
+    live=true; liveHd=null; sx=0; sy=0;
+    window.addEventListener('deviceorientationabsolute',onOri,true);
+    window.addEventListener('deviceorientation',onOri,true);
+    $('liveBtn').textContent='鎖定度數';
+    setTimeout(()=>{ if(live && liveHd==null) failLive(); },2500);
+  };
+  try{
+    if(typeof DeviceOrientationEvent!=='undefined' && typeof DeviceOrientationEvent.requestPermission==='function'){
+      DeviceOrientationEvent.requestPermission().then(r=> r==='granted'?go():failLive()).catch(failLive);
+    } else if(typeof DeviceOrientationEvent!=='undefined') go(); else failLive();
+  }catch(e){ failLive(); }
+};
+$('minus').onclick=()=>{ stopLive(); setFacing(S.facing-1); };
+$('plus').onclick=()=>{ stopLive(); setFacing(S.facing+1); };
+$('degIn').onchange=e=>{ const v=parseFloat(e.target.value); if(!isNaN(v)){ stopLive(); setFacing(v); } };
+
+// 拖動羅盤
+(function drag(){
+  const box=$('dialbox'); let st=null;
+  const ang=e=>{ const r=box.getBoundingClientRect(); return Math.atan2(e.clientX-(r.left+r.width/2), -(e.clientY-(r.top+r.height/2)))*180/Math.PI; };
+  box.addEventListener('pointerdown',e=>{ stopLive(); st={a:ang(e),f:S.facing}; box.setPointerCapture(e.pointerId); $('rose').style.transition='none'; });
+  box.addEventListener('pointermove',e=>{ if(!st) return; const d=ang(e)-st.a; const f=norm(st.f-d); S.facing=Math.round(f*10)/10; $('degIn').value=S.facing; showDial(S.facing); });
+  const end=()=>{ if(!st) return; st=null; $('rose').style.transition=''; touch(); render(); };
+  box.addEventListener('pointerup',end); box.addEventListener('pointercancel',end);
+})();
+
+// ---------- 屋況 ----------
+function fillSel(id,from,to,val,suffix){ const s=$(id); s.innerHTML=''; for(let v=from; from<to? v<=to : v>=to; v+= from<to?1:-1){ const o=document.createElement('option'); o.value=v; o.textContent=v+suffix; if(v===val) o.selected=true; s.appendChild(o);} }
+fillSel('moveY',THIS_Y,1950,S.moveY,'年'); fillSel('moveM',1,12,S.moveM,'月');
+fillSel('renoY',THIS_Y,1950,S.renoY,'年'); fillSel('renoM',1,12,S.renoM,'月');
+['moveY','moveM','renoY','renoM'].forEach(id=>$(id).onchange=e=>{ S[id]=+e.target.value; touch(); render(); });
+$('renoNo').onclick=()=>{ S.reno=false; touch(); render(); };
+$('renoYes').onclick=()=>{ S.reno=true; touch(); render(); };
+$('yunEdit').onclick=()=>{ const p=$('yunPick'); p.hidden=!p.hidden; $('yunEdit').textContent=p.hidden?'改':'收起'; };
+(function(){ const p=$('yunPick'); let h=`<button data-v="0">自動</button>`; for(let i=1;i<=9;i++) h+=`<button data-v="${i}">${CN[i]}</button>`; p.innerHTML=h;
+  p.onclick=e=>{ const b=e.target.closest('button'); if(!b) return; S.override=+b.dataset.v; touch(); render(); }; })();
+
+$('yPrev').onclick=()=>{ S.year=Math.max(currentYear()-5,S.year-1); render(); };
+$('yNext').onclick=()=>{ S.year=Math.min(currentYear()+5,S.year+1); render(); };
+$('starT').onclick=()=>{ S.stars=!S.stars; render(); };
+$('mFx').onclick=()=>{ S.mode='fx'; S.sel=null; render(); };
+$('mBz').onclick=()=>{ S.mode='bz'; S.sel=null; render(); };
+$('whos').onclick=e=>{ const b=e.target.closest('button'); if(!b) return; S.who=+b.dataset.w; S.sel=null; render(); };
+
+// ---------- 家人 ----------
+const MAXP=5;
+fillSel('pY',THIS_Y,1920,1980,'年'); fillSel('pM',1,12,1,'月'); fillSel('pD',1,31,1,'日');
+let pMale=true;
+const setSex=m=>{ pMale=m; $('pMale').setAttribute('aria-pressed',m); $('pFemale').setAttribute('aria-pressed',!m); };
+$('pMale').onclick=()=>setSex(true); $('pFemale').onclick=()=>setSex(false);
+const openForm=o=>{ $('addForm').hidden=!o; $('addBtn').hidden=o||S.people.length>=MAXP; if(o){ $('pName').value=''; setSex(true); $('pName').focus(); } };
+$('addBtn').onclick=()=>openForm(true);
+$('pCancel').onclick=()=>openForm(false);
+$('pSave').onclick=()=>{
+  if(S.people.length>=MAXP) return;
+  const name=($('pName').value.trim()||('家人'+(S.people.length+1))).slice(0,8);
+  S.people.push({name,y:+$('pY').value,m:+$('pM').value,d:+$('pD').value,male:pMale});
+  touch(); openForm(false); render();
+};
+$('people').onclick=e=>{ const b=e.target.closest('.del'); if(!b) return; const i=+b.dataset.i; S.people.splice(i,1); if(S.who===i) S.who=-1; else if(S.who>i) S.who--; render(); };
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+function autoPeriod(){
+  let y=S.moveY,m=S.moveM;
+  if(S.reno && (S.renoY*12+S.renoM) > (y*12+m)){ y=S.renoY; m=S.renoM; }
+  return periodOf(y,m);
+}
+
+// ---------- 渲染 ----------
+function render(){
+  $('sample').hidden=!S.sample;
+  $('renoNo').setAttribute('aria-pressed',!S.reno); $('renoYes').setAttribute('aria-pressed',S.reno);
+  $('renoRow').hidden=!S.reno;
+  const auto=autoPeriod(), P=S.override||auto;
+  $('yunName').textContent=CN[P]+'運盤';
+  $('yunSrc').textContent= S.override? '手動' : '按'+(S.reno && (S.renoY*12+S.renoM)>(S.moveY*12+S.moveM)?'裝修':'入伙');
+  [...$('yunPick').children].forEach(b=>b.setAttribute('aria-pressed',+b.dataset.v===S.override));
+
+  const off=((S.facing-mtIdx(S.facing)*15+540)%360)-180;
+  const c=chart(P,S.facing,Math.abs(off)>4.5);
+  const fDir=dirOfMt(c.fi), sDir=dirOfMt(c.si), fP=PAL[fDir], sP=PAL[sDir];
+  const houseG=sP, houseGrp=groupOf(houseG);
+  const nm=p=>DIRS[DIR_OF_PAL[p]];
+
+  // 家人
+  const ppl=S.people.map(p=>{ const g=birthGua(p.y,p.m,p.d,p.male); return Object.assign({g,grp:groupOf(g)},p); });
+  $('famCount').textContent=S.people.length+'/'+MAXP;
+  $('people').innerHTML=ppl.map((p,i)=>`<div class="person"><span class="pn grow">${esc(p.name)}</span><span class="pg">${GUA[p.g]}卦 · ${p.grp}命</span><span class="pm ${p.grp===houseGrp?'ok':'no'}">${p.grp===houseGrp?'同屋相配':'與屋不同組'}</span><button class="del" data-i="${i}" aria-label="刪除${esc(p.name)}">×</button></div>`).join('');
+  if($('addForm').hidden) $('addBtn').hidden=S.people.length>=MAXP;
+  if(S.who>=ppl.length) S.who=-1;
+
+  const bz=S.mode==='bz';
+  $('mFx').setAttribute('aria-pressed',!bz); $('mBz').setAttribute('aria-pressed',bz);
+  $('yearstep').hidden=bz; $('starT').hidden=bz; $('whos').hidden=!bz;
+
+  const info={}; let good=[], calm=[], sumHtml='';
+  const outer=[1,2,3,4,6,7,8,9];
+  if(!bz){
+    const a=fly(annualStar(S.year),true);
+    $('yLabel').textContent=S.year+' 流年';
+    let pat='';
+    if(c.mtn[sP]===P&&c.wtr[fP]===P) pat='旺山旺向';
+    else if(c.mtn[fP]===P&&c.wtr[sP]===P) pat='上山下水';
+    else if(c.mtn[fP]===P&&c.wtr[fP]===P) pat='雙星到向';
+    else if(c.mtn[sP]===P&&c.wtr[sP]===P) pat='雙星到坐';
+    [1,2,3,4,5,6,7,8,9].forEach(p=>info[p]=describe(p,c,a[p],P));
+    good=outer.filter(p=>info[p].tone==='good').sort((x,y)=>info[y].score-info[x].score).slice(0,3);
+    calm=outer.filter(p=>info[p].tone==='calm').sort((x,y)=>info[x].score-info[y].score).slice(0,3);
+    sumHtml=`<dt>${S.year}最旺</dt><dd class="g">${good.length?good.map(nm).join('、'):'—'}</dd>`+
+      `<dt>宜靜</dt><dd class="c">${calm.length?calm.map(nm).join('、'):'—'}</dd>`+
+      (pat?`<dt>格局</dt><dd>${pat}</dd>`:'');
+    [1,2,3,4,5,6,7,8,9].forEach(p=>{ info[p].sub = p===5 ? `運${c.base[5]}` : `山${info[p].m} 向${info[p].w} 年${info[p].a}`; });
+  }else{
+    $('whos').innerHTML=`<button data-w="-1" aria-pressed="${S.who<0}">以宅</button>`+ppl.map((p,i)=>`<button data-w="${i}" aria-pressed="${S.who===i}">${esc(p.name)}</button>`).join('');
+    const me=S.who>=0? ppl[S.who] : null, g=me? me.g : houseG;
+    [1,2,3,4,5,6,7,8,9].forEach(p=>info[p]=describeBz(g,p,!!me));
+    const order=['生氣','天醫','延年','伏位','絕命','五鬼','六煞','禍害'];
+    const rank=p=>order.indexOf(info[p].tag);
+    good=outer.filter(p=>info[p].good).sort((x,y)=>rank(x)-rank(y));
+    calm=outer.filter(p=>!info[p].good).sort((x,y)=>rank(x)-rank(y));
+    sumHtml = me
+      ? `<dt>命卦</dt><dd>${GUA[g]}卦 · ${me.grp}命 <span class="${me.grp===houseGrp?'g':'c'}">${me.grp===houseGrp?'同屋相配':'與屋不同組'}</span></dd>`
+      : `<dt>宅卦</dt><dd>${GUA[g]}宅 · ${houseGrp}宅</dd>`;
+    sumHtml+=`<dt>吉方</dt><dd class="g">${good.map(nm).join('、')}</dd><dt>凶方</dt><dd class="c">${calm.map(nm).join('、')}</dd>`;
+  }
+  $('summary').innerHTML=sumHtml;
+
+  // 向在上：按 90° 旋轉
+  const k=Math.round(norm(S.facing)/90)%4;
+  const POS={0:[1,2],45:[1,3],90:[2,3],135:[3,3],180:[3,2],225:[3,1],270:[2,1],315:[1,1]};
+  if(S.sel==null || !info[S.sel]) S.sel=good[0]||fP;
+  let h='';
+  [1,2,3,4,5,6,7,8,9].forEach(p=>{
+    const I=info[p]; let r,col;
+    if(p===5){ r=2; col=2; } else { const b=norm(DIR_OF_PAL[p]*45-90*k); [r,col]=POS[b]; }
+    h+=`<button class="cell ${I.tone}${p===5?' center':''}${p===fP?' facing':''}" style="grid-area:${r}/${col}" data-p="${p}" aria-pressed="${p===S.sel}">
+      <span class="cd">${p===5?'中':nm(p)}</span><span class="ct">${I.tag}</span>${(!bz&&S.stars)?`<span class="cs">${I.sub}</span>`:''}</button>`;
+  });
+  $('grid').innerHTML=h;
+  $('starT').setAttribute('aria-pressed',S.stars);
+
+  const I=info[S.sel];
+  $('card').innerHTML=`<h3>${S.sel===5?'中宮':nm(S.sel)}<span>｜</span>${I.tag}</h3><dl>${I.lines.map(([cl,k,v])=>`<dt class="${cl}">${k}</dt><dd>${v}</dd>`).join('')}</dl>`;
+  save();
+}
+$('grid').onclick=e=>{ const b=e.target.closest('.cell'); if(!b) return; S.sel=+b.dataset.p; render(); };
+
+$('degIn').value=S.facing; showDial(S.facing); render();
+})();
+</script>
+
+<script>
+if('serviceWorker' in navigator && location.protocol==='https:'){ window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{})); }
+</script>
+</body>
+</html>

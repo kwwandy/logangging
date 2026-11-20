@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="0" fill="#E2A92B"/>
+  <g transform="translate(256 256) scale(.8) translate(-256 -256)"><circle cx="256" cy="256" r="184" fill="#F6DC8C" stroke="#3A2A12" stroke-width="14"/>
+  <g fill="#3A2A12" opacity=".7">
+    <rect x="250" y="76" width="12" height="22" rx="3" transform="rotate(90 256 256)"/>
+    <rect x="250" y="76" width="12" height="22" rx="3" transform="rotate(180 256 256)"/>
+    <rect x="250" y="76" width="12" height="22" rx="3" transform="rotate(270 256 256)"/>
+  </g>
+  <!-- 兌 ☱：上爻斷，中、下爻連 -->
+  <g fill="#3A2A12">
+    <rect x="206" y="104" width="40" height="13" rx="3"/>
+    <rect x="266" y="104" width="40" height="13" rx="3"/>
+    <rect x="206" y="125" width="100" height="13" rx="3"/>
+    <rect x="206" y="146" width="100" height="13" rx="3"/>
+  </g>
+  <!-- 指向針 -->
+  <path d="M256 176 L284 262 L228 262 Z" fill="#FFFFFF" stroke="#3A2A12" stroke-width="6" stroke-linejoin="round"/>
+  <path d="M228 262 L284 262 L256 380 Z" fill="#3A2A12"/>
+  <circle cx="256" cy="262" r="17" fill="#F6DC8C" stroke="#3A2A12" stroke-width="7"/>
+</g></svg>
